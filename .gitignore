@@ -1,0 +1,25 @@
+# Next.js build and dependencies
+node_modules/
+.next/
+out/
+
+# Python virtual environment and cache
+.venv/
+__pycache__/
+*.pyc
+
+# Environment files and credentials
+.env
+.env*.local
+.env.local
+.env.production
+credentials.json
+token.json
+
+# Local temp and logs
+.tmp/
+tmp/
+*.log
+
+# System files
+.DS_Store

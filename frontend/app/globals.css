@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:wght@300;400;500&family=DM+Mono:wght@400&family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --linen: #F8F6F2;
+  --slate: #1A1A2E;
+  --sky: #7EC8E3;
+  --foam: #FAFCFF;
+  --sage: #B8D4C8;
+  --mouse: #999999;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--linen);
+  color: var(--slate);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--linen); }
+::-webkit-scrollbar-thumb { background: rgba(126,200,227,0.4); border-radius: 3px; }
+::selection { background: rgba(126,200,227,0.3); color: var(--slate); }
+
+/* Utilities */
+.tracked-caps {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+.mouse-type {
+  font-size: 11px;
+  color: var(--mouse);
+  letter-spacing: 0.05em;
+}
+.hairline {
+  height: 1px;
+  background: rgba(26,26,46,0.15);
+}
+
+/* Pill button */
+.pill-btn {
+  padding: 14px 32px;
+  border-radius: 9999px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border: 1px solid rgba(26,26,46,0.3);
+  background: transparent;
+  color: var(--slate);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.pill-btn::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 0;
+  background: var(--sky);
+  transition: height 0.4s cubic-bezier(0.16,1,0.3,1);
+  z-index: -1;
+}
+.pill-btn:hover::before { height: 100%; }
+.pill-btn:hover { color: white; border-color: var(--sky); }
+
+/* Nav link underline */
+.nav-link {
+  position: relative;
+  padding-bottom: 4px;
+  text-decoration: none;
+  color: var(--slate);
+  transition: color 0.3s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--slate);
+  transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.nav-link:hover::after { width: 100%; }
+.nav-link:hover { color: var(--sky); }
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.glass-card {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--sky);
+  box-shadow: 0 8px 32px rgba(126,200,227,0.15);
+}
+
+/* Polaroid */
+.polaroid {
+  background: white;
+  padding: 8px 8px 28px 8px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  flex-shrink: 0;
+  width: 160px;
+}
+.polaroid:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(126,200,227,0.2);
+}
+.polaroid img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
+/* Auth input */
+.auth-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding: 12px 0;
+  color: white;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.3s;
+}
+.auth-input::placeholder { color: rgba(255,255,255,0.5); }
+.auth-input:focus { border-color: var(--sky); }
+
+/* Custom checkbox */
+.custom-checkbox {
+  appearance: none;
+  width: 16px; height: 16px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.custom-checkbox:checked {
+  background: var(--sky);
+  border-color: var(--sky);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.08); opacity: 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cycle card selected */
+.cycle-card.selected {
+  border-color: var(--sky);
+  box-shadow: 0 0 0 3px rgba(126,200,227,0.3), 0 8px 32px rgba(126,200,227,0.15);
+  transform: scale(1.02);
+}
+.pulse-ring {
+  position: absolute;
+  inset: -4px;
+  border: 2px solid var(--sky);
+  border-radius: 18px;
+  animation: pulseRing 2s cubic-bezier(0.16,1,0.3,1) infinite;
+  pointer-events: none;
+}
+
+/* Tab indicator */
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 1px;
+  background: var(--sky);
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* Timeline */
+.timeline-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--sky);
+  flex-shrink: 0;
+}
+.timeline-line {
+  width: 1px;
+  flex: 1;
+  background: rgba(26,26,46,0.15);
+  margin-top: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title { font-size: clamp(4rem, 15vw, 8rem) !important; }
+  .polaroid-strip { display: none !important; }
+  .linen-stack { display: none !important; }
+  .social-edge { display: none !important; }
+}
+
+/* Custom classes for hover effects that used inline onmouseover */
+.social-icon-hover {
+  cursor: pointer;
+  stroke: rgba(26,26,46,0.3);
+  transition: stroke 0.3s;
+}
+.social-icon-hover:hover {
+  stroke: rgba(26,26,46,0.6);
+}
+
+.footer-link {
+  color: rgba(26,26,46,0.6);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-link:hover {
+  color: var(--slate);
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
