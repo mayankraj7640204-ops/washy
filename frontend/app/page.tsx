@@ -281,6 +281,14 @@ export default function Home() {
 
   const handlePayment = async () => {
     if (!currentBooking) return;
+
+    if (currentBooking.id === "subscription") {
+      setWorkflowStep("selection");
+      setCurrentBooking(null);
+      alert("Subscription trial activated successfully! Welcome to Washly Pro 🚀");
+      return;
+    }
+
     try {
       const res = await fetch(`${API_BASE_URL}/api/bookings/${currentBooking.id}/pay`, {
         method: "POST"
@@ -295,6 +303,22 @@ export default function Home() {
     } catch (err: any) {
       alert(err.message || "An error occurred during payment.");
     }
+  };
+
+  const handleStartTrial = () => {
+    if (!currentUser) {
+      document.getElementById("auth")?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    setCurrentBooking({
+      id: "subscription",
+      cycle_name: "Washly Pro Subscription",
+      duration_minutes: 0,
+      otp: "SUB1",
+      expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString()
+    });
+    setOtpTimeRemaining(600);
+    setWorkflowStep("otp_payment");
   };
 
   const handleLogout = async () => {
@@ -322,42 +346,58 @@ export default function Home() {
           }}>
             {/* Left: OTP Locker Card */}
             <div className="glass-card" style={{ padding: '48px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', minHeight: '450px' }}>
-              <p className="tracked-caps" style={{ color: 'rgba(26,26,46,0.5)', marginBottom: '16px', fontSize: '12px' }}>Hardware Authorization Code</p>
-              
-              <div style={{
-                fontSize: '64px',
-                fontWeight: 700,
-                color: 'var(--slate)',
-                letterSpacing: '12px',
-                background: 'rgba(126, 200, 227, 0.08)',
-                padding: '24px 32px 24px 44px',
-                borderRadius: '16px',
-                border: '1px solid rgba(126, 200, 227, 0.2)',
-                margin: '24px 0',
-                fontFamily: "'DM Mono', monospace",
-                boxShadow: '0 8px 32px rgba(126, 200, 227, 0.1)'
-              }}>
-                {currentBooking.otp}
-              </div>
+              {currentBooking.id === "subscription" ? (
+                <>
+                  <p className="tracked-caps" style={{ color: 'rgba(26,26,46,0.5)', marginBottom: '24px', fontSize: '12px' }}>Subscription Package</p>
+                  <h3 className="tracked-caps" style={{ color: 'var(--slate)', fontSize: '28px', marginBottom: '16px' }}>WASHLY PRO</h3>
+                  <p style={{ fontSize: '15px', color: 'rgba(26,26,46,0.7)', lineHeight: 1.6, maxWidth: '280px', marginBottom: '32px' }}>
+                    You are activating a <strong>14-day free trial</strong> of Washly Pro. You won&apos;t be charged today.
+                  </p>
+                  <div style={{ fontSize: '14px', color: 'var(--mouse)', fontFamily: "'Inter', sans-serif", lineHeight: 1.8 }}>
+                    Trial price: <strong style={{ color: 'var(--sky)' }}>₹0.00</strong><br />
+                    Then: <strong>₹1,200/month</strong>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="tracked-caps" style={{ color: 'rgba(26,26,46,0.5)', marginBottom: '16px', fontSize: '12px' }}>Hardware Authorization Code</p>
+                  
+                  <div style={{
+                    fontSize: '64px',
+                    fontWeight: 700,
+                    color: 'var(--slate)',
+                    letterSpacing: '12px',
+                    background: 'rgba(126, 200, 227, 0.08)',
+                    padding: '24px 32px 24px 44px',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(126, 200, 227, 0.2)',
+                    margin: '24px 0',
+                    fontFamily: "'DM Mono', monospace",
+                    boxShadow: '0 8px 32px rgba(126, 200, 227, 0.1)'
+                  }}>
+                    {currentBooking.otp}
+                  </div>
 
-              <p style={{ fontSize: '15px', color: 'rgba(26,26,46,0.7)', lineHeight: 1.6, maxWidth: '280px', marginBottom: '32px' }}>
-                Use this temporary 4-digit code on the washing machine keypad to authorize power startup.
-              </p>
+                  <p style={{ fontSize: '15px', color: 'rgba(26,26,46,0.7)', lineHeight: 1.6, maxWidth: '280px', marginBottom: '32px' }}>
+                    Use this temporary 4-digit code on the washing machine keypad to authorize power startup.
+                  </p>
 
-              <div style={{
-                background: 'rgba(26,26,46,0.03)',
-                padding: '12px 24px',
-                borderRadius: '9999px',
-                border: '1px solid rgba(26,26,46,0.05)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--mouse)" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                <span style={{ fontSize: '13px', fontFamily: "'DM Mono', monospace", color: 'var(--slate)' }}>
-                  Slot Reserved: <strong>{Math.floor(otpTimeRemaining / 60)}:{(otpTimeRemaining % 60).toString().padStart(2, '0')}</strong>
-                </span>
-              </div>
+                  <div style={{
+                    background: 'rgba(26,26,46,0.03)',
+                    padding: '12px 24px',
+                    borderRadius: '9999px',
+                    border: '1px solid rgba(26,26,46,0.05)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--mouse)" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <span style={{ fontSize: '13px', fontFamily: "'DM Mono', monospace", color: 'var(--slate)' }}>
+                      Slot Reserved: <strong>{Math.floor(otpTimeRemaining / 60)}:{(otpTimeRemaining % 60).toString().padStart(2, '0')}</strong>
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Right: LinkPe UPI QR Payment Card (Image 2 design) */}
@@ -1022,7 +1062,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <button className="pill-btn" style={{ width: '100%', background: 'white', borderColor: 'rgba(26,26,46,0.1)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+              <button onClick={handleStartTrial} className="pill-btn" style={{ width: '100%', background: 'white', borderColor: 'rgba(26,26,46,0.1)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
                 Start Free 14-Day Trial
               </button>
             </div>
