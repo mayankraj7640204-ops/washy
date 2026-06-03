@@ -433,7 +433,7 @@ export default function Home() {
                 borderBottom: '1px dashed #ccc',
                 paddingBottom: '12px'
               }}>
-                Click on PayNow or Scan Qr and Pay using any UPI Apps To Pay Pt Prashnat Tripathi
+                Click on PayNow or Scan Qr and Pay using any UPI Apps To Pay Washly team
               </p>
 
               {/* QR Code */}
@@ -446,9 +446,9 @@ export default function Home() {
                 marginBottom: '20px'
               }}>
                 <img 
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&color=1a1a2e&data=${encodeURIComponent(`upi://pay?pa=mayank@upi&pn=Pt Prashnat Tripathi&am=1200&cu=INR&tn=Washly ${currentBooking.cycle_name}`)}`} 
+                  src="/qr_code.png" 
                   alt="UPI QR Code LinkPe"
-                  style={{ width: '180px', height: '180px' }}
+                  style={{ width: '180px', height: '180px', objectFit: 'contain' }}
                 />
               </div>
 
